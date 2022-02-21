@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>Human Dashboard</title>
+<meta name="description" content="Roughly 155 characters">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mystyle.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
+    <script>
+
+        const socket = io.connect("{{ host }}")
+
+        socket.on("connect", function () {
+            socket.emit("join_human_rooms", {
+                username: "{{ username }}",
+            })
+
+            var message_input2 = document.getElementById("message_input2");
+            var message_input4 = document.getElementById("message_input4");            
+            var message_input6 = document.getElementById("message_input6");
+            var message_input8 = document.getElementById("message_input8");
+            var message_input10 = document.getElementById("message_input10");
+            var message_input12 = document.getElementById("message_input12");
+            var message_input14 = document.getElementById("message_input14");
+            var message_input16 = document.getElementById("message_input16");
+            var message_input18 = document.getElementById("message_input18");
+            var message_input20 = document.getElementById("message_input20");
+
+            document.getElementById('message_input_form2').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input2.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "2",
+                        message: message
+                    })
+
+                }
+                message_input2.value = '';
+                message_input2.focus();
+            }
+
+            document.getElementById('message_input_form4').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input4.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "4",
+                        message: message
+                    })
+
+                }
+                message_input4.value = '';
+                message_input4.focus();
+            }
+
+            document.getElementById('message_input_form6').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input6.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "6",
+                        message: message
+                    })
+
+                }
+                message_input6.value = '';
+                message_input6.focus();
+            }
+
+            document.getElementById('message_input_form8').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input8.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "8",
+                        message: message
+                    })
+
+                }
+                message_input8.value = '';
+                message_input8.focus();
+            }
+
+            document.getElementById('message_input_form10').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input10.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "10",
+                        message: message
+                    })
+
+                }
+                message_input10.value = '';
+                message_input10.focus();
+            }
+
+            document.getElementById('message_input_form12').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input12.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "12",
+                        message: message
+                    })
+
+                }
+                message_input12.value = '';
+                message_input12.focus();
+            }
+
+            document.getElementById('message_input_form14').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input14.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "14",
+                        message: message
+                    })
+
+                }
+                message_input14.value = '';
+                message_input14.focus();
+            }
+
+            document.getElementById('message_input_form16').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input16.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "16",
+                        message: message
+                    })
+
+                }
+                message_input16.value = '';
+                message_input16.focus();
+            }
+
+            document.getElementById('message_input_form18').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input18.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "18",
+                        message: message
+                    })
+
+                }
+                message_input18.value = '';
+                message_input18.focus();
+            }
+
+            document.getElementById('message_input_form20').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input20.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "20",
+                        message: message
+                    })
+
+                }
+                message_input20.value = '';
+                message_input20.focus();
+            }
+
+        });
+  
+        window.addEventListener("beforeunload", function (e) {
+            saveFormData();
+            for (var i = 2; i < 21; i + 2) {
+                socket.emit('leave_room', {
+                username: "{{ username }}",
+                room: i.toString
+            })
+            }
+            (e || window.event).returnValue = null;
+            return null;
+        });
+
+        socket.on('receive_message', function (data) {
+            console.log(data);
+            const newNode = document.createElement("div")
+            newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
+            document.getElementById(data.message_box_id).appendChild(newNode);
+
+        })
+
+        socket.on('join_room_announcement', function (data) {
+            console.log(data);
+            const newNode = document.createElement("div")
+            newNode.innerHTML = `<b>${data.username} has joined the room.</b>`;
+            document.getElementById(data.message_box_id).appendChild(newNode);
+
+        })
+
+        socket.on('leave_room_announcement', function (data) {
+            console.log(data);
+            const newNode = document.createElement("div")
+            newNode.innerHTML = `<b>${data.username} has left the room.</b>`;
+            document.getElementById(data.message_box_id).appendChild(newNode);
+        })
+
+
+
+    </script>
+</head>
+
+<body>
+    <div class="titleblock">
+        <h1>Human Dashboard</h1>
+        <h2>Hi {{ current_user.username }}! You're going to be talking to lots of people at once - no pressure, just try your best!</h2>
+    </div>
+        <div class="humandash-table-wrapper">
+            <div class="humandash-table-row">
+                <div id="room2" class="humandash-outer-table-cell">
+                    <h4>Room 2</h4>
+                    <div class="messages" id="messages2"></div>
+                    <form id="message_input_form2" class="humandash-table-row">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input2" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="room4" class="humandash-outer-table-cell">
+                    <h4>Room 4</h4>
+                    <div class="messages" id="messages4"></div>
+                    <form id="message_input_form4" class="humandash-table-row">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input4" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="humandash-table-row">
+                <div id="room6" class="humandash-outer-table-cell">
+                    <h4>Room 6</h4>
+                    <div class="messages" id="messages6"></div>
+                    <form id="message_input_form6">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input6" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="room8" class="humandash-outer-table-cell">
+                    <h4>Room 8</h4>
+                    <div class="messages" id="messages8"></div>
+                    <form id="message_input_form8">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input8" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="humandash-table-row">
+                <div id="room10" class="humandash-outer-table-cell">
+                    <h4>Room 10</h4>
+                    <div class="messages" id="messages10"></div>
+                    <form id="message_input_form10">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input10" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="room12" class="humandash-outer-table-cell">
+                    <h4>Room 12</h4>
+                    <div class="messages" id="messages12"></div>
+                    <form id="message_input_form12">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input12" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="humandash-table-row">
+                <div id="room14" class="humandash-outer-table-cell">
+                    <h4>Room 14</h4>
+                    <div class="messages" id="messages14"></div>
+                    <form id="message_input_form14">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input14" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="room16" class="humandash-outer-table-cell">
+                    <h4>Room 16</h4>
+                    <div class="messages" id="messages16"></div>
+                    <form id="message_input_form16">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input16" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="humandash-table-row">
+                <div id="room18" class="humandash-outer-table-cell">
+                    <h4>Room 18</h4>
+                    <div class="messages" id="messages18"></div>
+                    <form id="message_input_form18">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input18" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="room20" class="humandash-outer-table-cell">
+                    <h4>Room 20</h4>
+                    <div class="messages" id="messages20"></div>
+                    <form id="message_input_form20">
+                        <div class="humandash-table-cell">
+                            <input type="text" id="message_input20" placeholder="Enter your message here">
+                        </div>
+                        <div class="humandash-table-cell">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <form action="/presenterdash">
+            <div class = "top-corner">
+                <button type="submit">Back to Presenter Dashboard</button>
+            </div>
+        </form>
+
+</body>
+
+</html>

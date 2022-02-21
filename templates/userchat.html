@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Turing's Chatroom</title>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mystyle.css') }}">
+    <script>
+        const socket = io.connect("{{ host }}")
+        socket.on("connect", function () {
+            socket.emit("join_room", {
+                username: "{{ username }}",
+                room: "{{ room }}"
+            })
+
+            let message_input = document.getElementById("message_input");
+
+            document.getElementById('message_input_form').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "{{ room }}",
+                        message: message
+                    })
+
+                }
+                message_input.value = '';
+                message_input.focus();
+            }
+
+        });
+  
+        window.addEventListener("beforeunload", function (e) {
+            saveFormData();
+            socket.emit('leave_room', {
+                username: "{{ username }}",
+                room: "{{ room }}"
+            })
+            (e || window.event).returnValue = null;
+            return null;
+        });
+
+        socket.on('receive_message', function (data) {
+            if (data['room'] == "{{ room }}") {
+                console.log(data);
+                const newNode = document.createElement("div")
+                newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
+                document.getElementById('messages').appendChild(newNode);
+            }
+        })
+
+        socket.on("enable_tc_message_inputs", function () {
+            let messagebox = document.getElementById("message_input")
+            messagebox.removeAttribute("disabled");
+        })
+
+        socket.on("disable_tc_message_inputs", function () {
+            let messagebox = document.getElementById("message_input")
+            messagebox.setAttribute("disabled", null);
+        })
+
+        socket.on('join_room_announcement', function (data) {
+            if (data['room'] == "{{ home }}"){
+                console.log(data);
+                const newNode = document.createElement("div")
+                newNode.innerHTML = `<b>${data.username} has joined the room.</b>`;
+                document.getElementById('messages').appendChild(newNode);
+            }
+        })
+
+        socket.on('leave_room_announcement', function (data) {
+            if (data['room'] == "{{ home }}"){
+                console.log(data);
+                const newNode = document.createElement("div")
+                newNode.innerHTML = `<b>${data.username} has left the room.</b>`;
+                document.getElementById('messages').appendChild(newNode);
+            }
+        })
+    </script>
+</head>
+
+<body>
+    <div class="titleblock">
+        <h1>Welcome to Turing's Chatroom</h1>
+        <h2>There's another user here with you. Are they a human or a chatbot powered by OpenAI's GPT-3 algorithm?</h2>
+        <h2><b><i>Note: this app is for demonstration purposes only and has not been approved for public use.</i></b></h2>
+    </div>
+        <div class="centered-box">
+            <h3>Hi {{ current_user.username }}! You are in room {{ room }}.</h3>
+            <div class="messages" id="messages"></div>
+            <form id="message_input_form" class="userchat-table-row">
+                <div class="userchat-table-cell-input">
+                    <input type="text" id="message_input" placeholder="Enter your message here" disabled>
+                </div>
+                <div class="userchat-table-cell-button">
+                    <button type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    <h3>Cast your vote here!</h3>
+        <div class="vote-table-wrapper">
+            <div class="vote-table-row">
+                <div class="vote-table-cell">
+                    <form action="/votehuman" method="post" class="vote-form">
+                        <input type="submit" value="Human"/>
+                    </form>
+                </div>
+                <div class="vote-table-cell">
+                    <form action="/votecomputer" method="post" class="vote-form">
+                        <input type="submit" value="Computer"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>Turing's Chatroom Display</title>
+<meta name="description" content="Roughly 155 characters">
+<link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
+<!-- Countdown timer script -->
+<script>
+function CountDownTimer(duration, granularity) {
+  this.duration = duration;
+  this.granularity = granularity || 1000;
+  this.tickFtns = [];
+  this.running = false;
+}
+
+CountDownTimer.prototype.start = function() {
+  if (this.running) {
+    return;
+  }
+  this.running = true;
+  var start = Date.now(),
+      that = this,
+      diff, obj;
+
+  (function timer() {
+    diff = that.duration - (((Date.now() - start) / 1000) | 0);
+
+    if (diff > 0) {
+      setTimeout(timer, that.granularity);
+    } else {
+      diff = 0;
+      that.running = false;
+    }
+
+    obj = CountDownTimer.parse(diff);
+    that.tickFtns.forEach(function(ftn) {
+      ftn.call(this, obj.minutes, obj.seconds);
+    }, that);
+  }());
+};
+
+CountDownTimer.prototype.onTick = function(ftn) {
+  if (typeof ftn === 'function') {
+    this.tickFtns.push(ftn);
+  }
+  return this;
+};
+
+CountDownTimer.prototype.expired = function() {
+  return !this.running;
+};
+
+CountDownTimer.parse = function(seconds) {
+  return {
+    'minutes': (seconds / 60) | 0,
+    'seconds': (seconds % 60) | 0
+  };
+};
+
+const socket = io.connect("{{ host }}")
+
+socket.on('reveal_results', function (data) {
+  for (i=0; i<data["result_list"].length; i++) {
+    console.log(data);
+    const newNode = document.createElement("div")
+    newNode.innerHTML = `<h1>${data.result_list[i]}</h1>`;
+    document.getElementById('results').appendChild(newNode);
+  }
+        })
+
+window.onload = function () {
+    var display = document.querySelector('#time'),
+        timer = new CountDownTimer(120),
+        timeObj = CountDownTimer.parse(120);
+
+    format(timeObj.minutes, timeObj.seconds);
+    
+    timer.onTick(format);
+
+    document.getElementById("reveal").addEventListener('click', function () {
+        socket.emit("show_results", {result_list: ""})
+    });
+    
+    document.querySelector('button').addEventListener('click', function () {
+        socket.emit("tc_started")
+        timer.start();
+    });
+    
+    function format(minutes, seconds) {
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        display.textContent = minutes + ':' + seconds;
+        if (minutes == 0 && seconds == 0) {
+          socket.emit("tc_ended")
+        }
+    }
+};
+</script>
+</head>
+
+<body>
+
+    <div class="titleblock">
+      <h1>Welcome to Turing's Chatroom</h1>
+      <h2>The famed "Turing Test" was devised by Alan Turing in 1950. It is a way to test a computer's ability to exhibit intelligent behavior indistinguishable from that of a human. We will be conducting our own (less formal, more fun) version of the Turing Test today. We call it "Turing's Chatroom". </h2>
+    </div>
+
+    <div class = "timer-display"><span id="time"></span></div>
+    <div class="landing-form">
+      <button>Start Count Down</button>
+      <button id="reveal">Show Results</button>
+    </div>
+
+    <div class="resultsblock" id="results"></div>
+
+    <form action="/presenterdash">
+      <div class = "top-corner">
+          <button type="submit">Back to Presenter Dashboard</button>
+      </div>
+    </form>
+
+</body>
+
+</html>

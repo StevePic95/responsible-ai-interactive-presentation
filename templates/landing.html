@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Are you smarter than a computer?</title>
+<meta name="description" content="Roughly 155 characters">
+<link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+
+</script>
+</head>
+<body>
+
+<h1 style = "text-align: center;">Are you smarter than a computer?</h1>
+
+<div class = "landing-text">
+    <p>The members, officers, and advisors of RCSJ's Phi Theta Kappa chapter would like to extend a warm welcome to everyone attending the <i>Are you smarter than a computer?</i> event. Thanks so much for coming!</p>
+    <p>We designed this presentation to be an interactive experience. The primary objective? To learn the basics of AI technology, what it means to use AI responsibly, and what kinds of ethical and psychological questions it poses. (and have fun doing it!)</p>
+    <p>You will mostly be using your phone, tablet, or laptop to interact with the demonstrations. To begin, just enter the Presentation Code displayed in the front of the room and choose a username below.</p>
+    <p><b>Keep in mind:</b> For anonymity, your temporary user account will be logged out and disabled if you "go back" or refresh in your browser. (If you do accidentally log out, just come back to this page and make another temporary account!)</p>
+</div>
+
+<div class = "landing-text">
+    <h4>{{ message }}</h4>
+</div>
+
+<form id= "userpass" method="post" action="/">
+    <div class = "landing-form">
+        <label>Presentation Code:</label>
+        <input type="text" name="password">
+    </div>
+    <div class = "landing-form">
+        <label>Choose a username:</label>
+        <input type="text" name="username">
+        <button type="submit">Go</button>
+    </div>
+</form>
+
+<form action="/login">
+    <div class = "top-corner">
+        <button type="submit">Presenter Login</button>
+    </div>
+</form>
+
+</body>
+</html>

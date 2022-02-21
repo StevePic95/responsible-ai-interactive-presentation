@@ -1,0 +1,338 @@
+body {
+  font-family: Helvetica,Verdana,Arial,sans-serif;
+  font-size: 14px;
+  margin: auto;
+  width: 75%;
+  vertical-align: auto;
+  line-height: 1;
+  color: rgb(46, 46, 46);
+  background-color: rgb(255, 255, 255);
+}
+
+h1 {
+  font-size: 72px;
+  color:rgb(0, 17, 114);
+}
+
+h2 {
+  font-size: 35px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: rgb(75, 75, 75);
+  font-weight: 500;
+  
+}
+
+h3 {
+  font-size: 35px;
+  color:rgb(46, 0, 107);
+  font-weight: 700;
+  text-align: center;
+}
+
+h4 {
+  font-size: 24px;
+  color:rgb(0, 25, 95)
+}
+
+p {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.titleblock {
+  margin: 45px;
+  width: 90%;
+}
+
+.titleblock h1 {
+  width: 100%;
+  text-align: left;
+  margin: 10px;
+}
+
+.titleblock h2 {
+  width: 90%;
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: left;
+  margin: 5px;
+}
+
+.titleblock h3 {
+  width: 80%;
+  text-align: left;
+  margin: 5px;
+}
+
+.titleblock p {
+  width: 90%;
+  text-align: left;
+  margin: 5px;
+}
+
+.centered-titleblock {
+  text-align: center;
+  margin: 35px;
+  width: 90%;
+}
+
+.centered-titleblock h1 {
+  width: 100%;
+  text-align: center;
+  margin: 10px;
+}
+
+.centered-titleblock h2 {
+  width: 90%;
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: center;
+  margin: 5px;
+}
+
+.centered-titleblock p {
+  width: 90%;
+  text-align: center;
+  margin: 5px;
+}
+
+
+.resultsblock {
+  width: 100%;
+  margin: 10px;
+}
+
+.resultsblock h1 {
+
+  width: 90%;
+  font-size: 40px;
+  text-align: left;
+  margin: 25px;
+}
+
+button, input[type="button"], input[type="submit"] { 
+  color:rgb(255, 255, 255); 
+  font: "helvetica",arial,sans-serif; 
+  font-size: 16px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  background-color:rgb(0, 22, 95); 
+  border:2px solid; 
+  border-color: rgb(0, 7, 104); 
+  transition-duration: 0.4s;
+  margin: 2px;
+} 
+
+button:hover, input[type="button"]:hover, input[type="submit"]:hover { 
+  color:rgb(0, 22, 95); 
+  font: "helvetica",arial,sans-serif; 
+  font-size: 16px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  background-color:rgb(255, 255, 255); 
+  border:2px solid; 
+  border-color: rgb(0, 22, 95); 
+  transition-duration: 0.4s;
+  margin: 2px;
+} 
+
+button:disabled, input[type="button"]:disabled, input[type="submit"]:disabled { 
+  color:rgb(116, 116, 116); 
+  font: "helvetica",arial,sans-serif; 
+  font-size: 16px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  background-color:rgb(206, 206, 206); 
+  border:2px solid; 
+  border-color: rgb(36, 36, 36); 
+  transition-duration: 0.4s;
+  margin: 2px;
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 10px;
+  box-sizing: border-box;
+  transition-duration: 0.1s;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  border: 3px solid rgb(0, 22, 95);
+  background-color: rgb(227, 231, 255);
+}
+
+label {
+  font-family:Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  color: rgb(0, 22, 95);
+  font-weight:bold;
+}
+
+.landing-text {
+  width: 700px;
+  text-align: left;
+  margin: auto;
+}
+
+.landing-form {
+    width: 700px;
+    text-align: center;
+    padding: auto;
+    margin: auto;
+}
+
+.top-corner {
+  position:absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.presenter-dash-text {
+    width: 700px;
+    text-align: center;
+    margin: auto;
+}
+
+.timer-display {
+  text-align: center;
+  margin: auto;
+  font-size: 300px;
+}
+
+.humandash-table-wrapper {
+  display: table;
+  margin: 5px;
+  width: 90%;
+  vertical-align: auto;
+  border-spacing: 4px;
+}
+
+.humandash-table-row {
+  display: table-row;
+  vertical-align: bottom;
+  width: 100%;
+}
+
+.humandash-outer-table-cell {
+  width: 500px;
+  display: table-cell;
+  border: 2px solid black;
+  background-color: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.humandash-table-cell {
+  width:fit-content;
+  display: table-cell;
+  margin: 1px;
+  
+}
+
+.trainingdata-table-wrapper {
+  width: 80%;
+  display: table;
+  margin: auto;
+}
+
+.trainingdata-table-row {
+  display: table-row;
+}
+
+.trainingdata-table-cell {
+  width: 500px;
+  display: table-cell;
+  border: 2px solid black;
+  padding: 15px;
+}
+
+.trainingdata-sent-message {
+  width: 700px;
+  text-align: center;
+  margin: auto;
+}
+
+.training-message-input-box {
+  width: 350px;
+  text-align: center;
+  margin: auto;
+}
+
+.vote-table-wrapper {
+  width:20%;
+  display: table;
+  margin: auto;
+}
+
+.vote-table-row {
+  display: table-row;
+  width: 20%;
+}
+
+.vote-table-cell {
+  width: 125px;
+  display: table-cell;
+  padding: 15px;
+}
+
+.vote-form {
+  width: 125px;
+  text-align: center;
+  padding: auto;
+  margin: auto;
+}
+  
+.userchat-table-wrapper {
+  display: table;
+  margin: 5px;
+  width: 50%;
+  vertical-align: auto;
+  border-spacing: 4px;
+}
+
+.userchat-table-row {
+  text-align: center;
+  display: table-row;
+  margin: auto;
+}
+
+.userchat-outer-table-cell {
+  width: 100%;
+  display: table-cell;
+  border: 2px solid rgb(0, 22, 95);;
+  background-color: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.userchat-table-cell-input {
+  width:80%;
+  display: table-cell;
+  margin: 1px;
+
+}
+
+.userchat-table-cell-submit {
+  width:fit-content;
+  display: table-cell;
+  margin: 1px;
+
+}
+
+.centered-box {
+  margin: auto;
+  width: 50%;
+  border: 2px solid rgb(0, 22, 95);
+  background-color: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.centered-box h3 {
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.messages {
+  font-size: 17px;
+  font-family: Helvetica, Arial, sans-serif;
+}

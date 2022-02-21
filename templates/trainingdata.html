@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Turing's Chatroom</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mystyle.css') }}">
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
+    <script>
+        const socket = io.connect("{{ host }}")
+        socket.on("connect", function () {
+            socket.emit("connect_trainingdata")
+
+            let message_input = document.getElementById("message_input");
+            let submit_button = document.getElementById("submit");
+            if ("{{ role }}" == "presenter") {
+            submit_button.removeAttribute("disabled");
+            }
+
+            document.getElementById('message_input_form').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input.value.trim();
+                if (message.length) {
+                    socket.emit('send_trainingdata_message', {
+                        username: "{{ role }}",
+                        message: message,
+                        role: "{{ role }}"
+                    })
+
+                }
+                
+                socket.emit("15s_delay");
+
+                message_input.value = '';
+                message_input.focus();
+            }
+
+        });
+
+        socket.on('start_delay', function(){
+            let submit_button = document.getElementById("submit");
+            submit_button.disabled = true;
+        })
+
+
+        socket.on('end_delay', function(){
+            let submit_button = document.getElementById("submit");
+            submit_button.removeAttribute("disabled");
+        })
+
+        socket.on('receive_trainingdata_message', function(data){
+            
+            if (data['username'] == "GOOD MODEL") {
+                console.log(data);
+                const newNode = document.createElement("div")
+                newNode.innerHTML = `<h3>${data.message}</h3>`;
+                if (document.getElementById('good_responses').childElementCount > 0){
+                    document.getElementById('good_responses').removeChild(document.getElementById('good_responses').firstChild);
+                }
+                document.getElementById('good_responses').appendChild(newNode);
+            }
+
+            if (data['username'] == "DWIGHT MODEL") {
+                console.log(data);
+                const newNode = document.createElement("div")
+                newNode.innerHTML = `<h3>${data.message}</h3>`;
+
+                if (document.getElementById('dwight_responses').childElementCount > 0){
+                    document.getElementById('dwight_responses').removeChild(document.getElementById('dwight_responses').firstChild);
+                }
+                document.getElementById('dwight_responses').appendChild(newNode);
+            }
+
+            else {
+                if (data['username'] != "GOOD MODEL" && data['username'] != "DWIGHT MODEL"){
+                    console.log(data);
+                    const newNode = document.createElement("div")
+                    newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
+                    document.getElementById('messages').appendChild(newNode);
+                    
+
+                }
+            }
+        })
+        
+
+    </script>
+</head>
+
+<body>
+
+    <h1>The Importance of Good Training Data</h1>
+
+    <h2>One of these GPT-3 models has been trained properly by OpenAI, but the presenters have trained the second model with all of Dwight Schrute's lines from The Office. How does this affect the model?</h2>
+
+    <div class="trainingdata-table-wrapper">
+        <div class="trainingdata-table-row">
+            <div class="trainingdata-table-cell" id="good-model">
+                <h3><b>Well-trained model:</b></h3>
+                <h3></h3>
+                <div style="text-align: center;" id="good_responses"></div>
+            </div>
+            <div class="trainingdata-table-cell" id="dwight-model">
+                <h3><b>Not-so-well-trained model:</b></h3>
+                <h3></h3>
+                <div style="text-align: center;" id="dwight_responses"></div>
+            </div>
+        </div>
+    </div>
+    <div class="training-message-input-box" id="messages"></div>
+    <div class="training-message-input-box">
+        <form id="message_input_form">
+            <input type="text" id="message_input" placeholder="Enter your message here">
+            <button type="submit" id="submit" disabled>Send</button>
+        </form>
+    </div>
+    <h1></h1>
+    <form action="/rawdata">
+        <div class = "training-message-input-box">
+            <button type="submit">View Training Data</button>
+        </div>
+    </form>
+
+    <form action="/presenterdash">
+        <div class = "top-corner">
+            <button type="submit">Back to Presenter Dashboard</button>
+        </div>
+    </form>
+
+</body>
+
+</html>
